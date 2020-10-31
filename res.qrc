@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>branch.png</file>
+        <file>node.png</file>
+        <file>pipe.png</file>
+        <file>reservoir.png</file>
+        <file>run.png</file>
+        <file>turbine.png</file>
+        <file>node_checked.png</file>
+        <file>reservoir_checked.png</file>
+    </qresource>
+</RCC>
