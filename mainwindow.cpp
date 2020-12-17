@@ -11,7 +11,8 @@
 #include<QPainter>
 #include<QList>
 #include<QDialog>
-
+#include<QInputDialog>
+//2334
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -29,12 +30,14 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-    //Creat groups
+    //Creat button group
     elementsBtns=new QButtonGroup(this);
+    //Virtual button for that no element button is checked
     virtualBtn=new QPushButton(this);
     virtualBtn->setVisible(false);
     virtualBtn->setCheckable(true);
     elementsBtns->addButton(virtualBtn,0);
+    //Creat action group
     elementActs=new QActionGroup(this);
     //Creat element actions
     addElementAction();
@@ -52,7 +55,8 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+//[1]
+//重写鼠标事件，用于在工作区生成元素按钮
 void MainWindow::mousePressEvent(QMouseEvent *event){
     //Left button clicked in main window
     if(event->button()==Qt::LeftButton)
@@ -69,12 +73,13 @@ void MainWindow::mousePressEvent(QMouseEvent *event){
             }
             else
             {  // New button
-                QPushButton *button;
-                button=new QPushButton(this);
+                EleButton *button;
+                button=new EleButton(ElementType(eleID),0,this);
                 button->setGeometry(event->pos().x()-18,event->pos().y()-18,36,36);
                 button->setCheckable(true);
                 button->setStyleSheet(button_styleList.at(eleID));
-                connect(button,&QPushButton::,this,&MainWindow::reservoirDialog);
+//                connect(button,&QPushButton::d,this,&MainWindow::reservoirDialog);
+                connect(button,&EleButton::doubleClicked,this,&MainWindow::showElementDialog);
                 elementsBtns->addButton(button);
                 ps->addElement(eleName);
                 button->show();
@@ -87,17 +92,17 @@ void MainWindow::mousePressEvent(QMouseEvent *event){
     }
 }
 
-
+//[2]
+//根据系统中的元素名称列表，生成工具栏动作
+//初始元素按钮选中和非选中时的图标样式
 void MainWindow::addElementAction()
 {
-    for (auto i = elementsList.begin(); i != elementsList.end(); ++i)
+    for (auto i = ps->elementsList.begin(); i != ps->elementsList.end(); ++i)
     {
-        //New element actions
+        //New element actions according to elementsList
         QAction *elementAct=new QAction(QIcon(":/images/"+*i),*i,elementActs);
         elementAct->setCheckable(true);
-//        //New button Groups
-//        QButtonGroup* eleButtonGroup=new QButtonGroup(this);
-//        eleBGList.append(eleButtonGroup);
+
         //New button styles
         QString button_style="QPushButton{\
                 border-image:url(:/images/"+*i+")}"
@@ -107,12 +112,24 @@ void MainWindow::addElementAction()
     }
 };
 
-
-
-
+//[3]
+//分发元素对话框显示
+void MainWindow::showElementDialog(int id, ElementType type)
+{
+    switch (type) {
+    case ElementType::Reservoir:
+        reservoirDialog(id);
+        break;
+    default:
+        break;
+    }
+};
+//[4]
+//水库对话框
 void MainWindow::reservoirDialog(int typeID)
 {
-    QDialog* dialog=new QDialog(this);
-    dialog->show();
-
+      double waterLevel = QInputDialog::getDouble(this,
+                         "Property",
+                         "Water level" );
+      ps->reservoirs[typeID].waterLevel=waterLevel;
 };

@@ -11,6 +11,8 @@
 #include<QMetaEnum>
 #include<QMap>
 #include<QRadioButton>
+#include"myQT.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow; }
@@ -35,7 +37,7 @@ private:
     QButtonGroup *nodeBtns;
     QButtonGroup *branchBtns;
     QButtonGroup *elementsBtns;
-QPushButton* virtualBtn;
+    QPushButton* virtualBtn;
     QActionGroup *elementActs;
     int nRe=0;
     void mousePressEvent(QMouseEvent *event);
@@ -44,9 +46,8 @@ QPushButton* virtualBtn;
     QList<QButtonGroup *> eleBGList;
     void addElementAction();
     QStringList button_styleList;
-    QList<int > eleCount;
-
-
+private slots:
+    void showElementDialog(int id, ElementType type);
     void reservoirDialog(int id);
 };
 #endif // MAINWINDOW_H

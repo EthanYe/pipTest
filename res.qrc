@@ -9,4 +9,7 @@
         <file>node_checked.png</file>
         <file>reservoir_checked.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>readme.txt</file>
+    </qresource>
 </RCC>

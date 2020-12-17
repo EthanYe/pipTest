@@ -9,15 +9,21 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    QPipe.cpp \
     elements.cpp \
+    hydroment.cpp \
     main.cpp \
     mainwindow.cpp \
+    myQT.cpp \
     my_math.cpp \
     pipsys.cpp
 
 HEADERS += \
+    Qpipe.h \
     elements.h \
+    hydroment.h \
     mainwindow.h \
+    myQT.h \
     my_math.h \
     pipsys.h
 
